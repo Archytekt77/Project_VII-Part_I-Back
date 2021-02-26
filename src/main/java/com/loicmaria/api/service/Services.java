@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class Services<T, S extends JpaRepository<T, Integer>> {
 
@@ -16,18 +17,14 @@ public class Services<T, S extends JpaRepository<T, Integer>> {
     }
 
 
-    public T get(int id) {
-        return repository.findById(id).get();
+    public Optional<T> get(int id) {
+        return repository.findById(id);
     }
 
 
-    public void add(T val) {
-        repository.save(val);
-    }
-
-
-    public T update(T val) {
-        return repository.save(val);
+    public T save(T val) {
+        T val2 = repository.save(val);
+        return val2;
     }
 
 
