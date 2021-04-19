@@ -3,6 +3,7 @@ package com.loicmaria.api.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Data
 @Entity
@@ -16,13 +17,17 @@ public class User {
     @Column(name = "first_name")
     private String firstName;
 
-    @Column(name="last_name")
+    @Column(name = "last_name")
     private String lastName;
 
     private String mail;
 
     private String password;
 
+    @ManyToOne
+    private Role role;
+    @OneToMany(mappedBy = "user")
+    private Collection<Loan> loans;
 
 
 }

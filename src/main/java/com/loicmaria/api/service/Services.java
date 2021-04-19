@@ -1,43 +1,61 @@
 package com.loicmaria.api.service;
 
+import lombok.Data;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.Iterator;
 
-public class Services<T, S extends JpaRepository<T, Integer>> {
+@Data
+public abstract class Services<U, T, S extends JpaRepository<U, Integer>> {
+
+    @Autowired
+    public ModelMapper modelMapper;
 
     @Autowired
     public S repository;
 
+    public abstract U convertDtoToEntity(T val);
 
-    public Collection<T> getter() {
-        return repository.findAll();
+    public abstract T convertEntityToDto(U val);
+
+    public Collection<T> convertCollectionToDto(Collection<U> val){
+        Collection<T> test2 = null;
+        Iterator<U> test = val.iterator();
+
+        while (test.hasNext()){
+            test2.add(convertEntityToDto(test.next()));
+        }
+
+        return test2;
     }
 
 
-    public Optional<T> get(int id) {
-        return repository.findById(id);
+
+    public Collection<T> getter() {
+        Collection<U> val = repository.findAll();
+        Collection<T> val2 = convertCollectionToDto(val);
+        return val2;
+    }
+
+
+    public T get(int id) {
+        T val = this.convertEntityToDto(repository.findById(id).get());
+        return val;
     }
 
 
     public T save(T val) {
-        T val2 = repository.save(val);
-        return val2;
+        U val2 = this.convertDtoToEntity(val);
+        repository.save(val2);
+        val = this.convertEntityToDto(val2);
+        return val;
     }
 
 
     public void delete(int id) {
         repository.deleteById(id);
-    }
-
-
-    // Getters and Setters
-    public S getRepository() {
-        return repository;
-    }
-    public void setRepository(S repository) {
-        this.repository = repository;
     }
 }

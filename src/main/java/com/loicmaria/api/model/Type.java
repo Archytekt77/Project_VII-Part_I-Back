@@ -22,6 +22,7 @@ public class Type {
     protected void prePersist() {
         if (this.createDate == null) createDate = LocalDateTime.now();
     }
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDate;

@@ -1,97 +1,76 @@
 package com.loicmaria.api.controller;
 
 
-import com.loicmaria.api.model.User;
+import com.loicmaria.api.DTO.UserDto;
 import com.loicmaria.api.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.Collection;
+
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
-    
+
     @Autowired
-    UserServiceImpl userService;
+    UserServiceImpl userServiceImpl;
 
     /**
      * Create - Add a new user
-     * @param user An object user
+     *
+     * @param userDto An object user
      * @return The user object saved
      */
-    @PostMapping("/user")
-    public User createUser(@RequestBody User user) {
-        return userService.save(user);
+    @PostMapping
+    public UserDto createUser(@RequestBody UserDto userDto) {
+        return userServiceImpl.save(userDto);
     }
 
 
     /**
-     * Read - Get one user 
+     * Read - Get one user
+     *
      * @param id The id of the user
      * @return An User object full filled
      */
-    @GetMapping("/user/{id}")
-    public User getUser(@PathVariable("id") int id) {
-        Optional<User> user = userService.get(id);
-        if(user.isPresent()) {
-            return user.get();
-        } else {
-            return null;
-        }
+    @GetMapping("/{id}")
+    public UserDto getUser(@PathVariable("id") int id) {
+        UserDto userDto = userServiceImpl.get(id);
+            return userDto;
     }
 
     /**
      * Read - Get all users
+     *
      * @return - An Iterable object of User full filled
      */
-    @GetMapping("/users")
-    public Iterable<User> getUsers() {
-        return userService.getter();
+    @GetMapping
+    public Collection<UserDto> getUsers() {
+        return userServiceImpl.getter();
     }
 
     /**
      * Update - Update an existing user
-     * @param id - The id of the user to update
-     * @param user - The user object updated
+     *
+     * @param id   - The id of the user to update
+     * @param userDto - The user object updated
      * @return The currentUser if he is present or null
      */
-    @PutMapping("/user/{id}")
-    public User updateUser(@PathVariable("id") int id, @RequestBody User user) {
-        Optional<User> e = userService.get(id);
-        if(e.isPresent()) {
-            User currentUser = e.get();
-
-            String firstName = user.getFirstName();
-            if(firstName != null) {
-                currentUser.setFirstName(firstName);
-            }
-            String lastName = user.getLastName();
-            if(lastName != null) {
-                currentUser.setLastName(lastName);
-            }
-            String mail = user.getMail();
-            if(mail != null) {
-                currentUser.setMail(mail);
-            }
-            String password = user.getPassword();
-            if(password != null) {
-                currentUser.setPassword(password);
-            }
-            userService.save(currentUser);
-            return currentUser;
-        } else {
-            return null;
-        }
+    @PutMapping("/{id}")
+    public UserDto updateUser(@PathVariable("id") int id, @RequestBody UserDto userDto) {
+        userServiceImpl.save(userDto);
+        return userDto;
     }
 
 
     /**
      * Delete - Delete an user
+     *
      * @param id - The id of the user to delete
      */
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") int id) {
-        userService.delete(id);
+        userServiceImpl.delete(id);
     }
 }

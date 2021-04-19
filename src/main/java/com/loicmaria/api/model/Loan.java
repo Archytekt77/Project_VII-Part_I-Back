@@ -24,10 +24,16 @@ public class Loan {
     protected void prePersist() {
         if (this.createDate == null) createDate = LocalDateTime.now();
     }
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDate;
     @UpdateTimestamp
     @Column
     private LocalDateTime updateDate;
+
+    @OneToOne
+    private Copy copy;
+    @ManyToOne
+    private User user;
 }

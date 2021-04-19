@@ -31,10 +31,14 @@ public class Book {
     protected void prePersist() {
         if (this.createDate == null) createDate = LocalDateTime.now();
     }
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDate;
     @UpdateTimestamp
     @Column
     private LocalDateTime updateDate;
+
+    @OneToOne
+    private Type type;
 }
