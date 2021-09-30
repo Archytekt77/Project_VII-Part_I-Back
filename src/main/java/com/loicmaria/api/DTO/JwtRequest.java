@@ -3,13 +3,8 @@ package com.loicmaria.api.DTO;
 import lombok.Data;
 
 @Data
-public class UserDto {
-
-    private int id;
+public class JwtRequest {
 
     private String username;
-
-    private String mail;
-
     private String password;
 }

@@ -14,14 +14,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    //@Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    @Column(name = "last_name")
-    private String lastName;
-
+    @Column(nullable = false, unique = true)
     private String mail;
 
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
