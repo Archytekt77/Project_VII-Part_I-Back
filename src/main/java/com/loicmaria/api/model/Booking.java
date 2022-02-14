@@ -6,31 +6,27 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "books")
-public class Book {
+@Entity(name = "Booking")
+@Table(name = "Booking")
+public class Booking {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    private String title;
-
-    private String collection;
-
-    private String summary;
-
-    private String language;
-
-    private Date publicationDate;
+    @Column
+    private String status;
+    @Column
+    private Boolean extraTime;
 
     @PrePersist
     protected void prePersist() {
-        if (this.createDate == null) createDate = LocalDateTime.now();
+        if (this.createDate == null) {
+            createDate = LocalDateTime.now();
+            updateDate = null;
+        }
     }
 
     @CreatedDate
@@ -40,9 +36,8 @@ public class Book {
     @Column
     private LocalDateTime updateDate;
 
-
+    @OneToOne
+    private Book book;
     @ManyToOne
-    private Author author;
-    @OneToMany
-    private Collection<Copy> copyCollection;
+    private User user;
 }

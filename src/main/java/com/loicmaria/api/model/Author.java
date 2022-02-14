@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Data
 @Entity
@@ -33,4 +34,7 @@ public class Author {
     @UpdateTimestamp
     @Column
     private LocalDateTime updateDate;
+
+    @OneToMany
+    private Collection<Book> bookCollection;
 }

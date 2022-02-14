@@ -3,10 +3,14 @@ package com.loicmaria.api.service;
 import com.loicmaria.api.DTO.RoleDto;
 import com.loicmaria.api.model.Role;
 import com.loicmaria.api.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RoleServiceImpl extends Services<Role, RoleDto, RoleRepository>{
+
+    @Autowired
+    UserServiceImpl userService;
     
     @Override
     public Role convertDtoToEntity(RoleDto roleDto){
@@ -18,5 +22,15 @@ public class RoleServiceImpl extends Services<Role, RoleDto, RoleRepository>{
     public RoleDto convertEntityToDto(Role role){
         RoleDto roleDto = modelMapper.map(role, RoleDto.class);
         return roleDto;
+    }
+
+
+    /**
+     * <b>Retourne un Rôle selon son nom.</b>
+     * @param name Le nom du rôle.
+     * @return Un Rôle.
+     */
+    public Role findByName(String name){
+        return this.repository.findByName(name);
     }
 }

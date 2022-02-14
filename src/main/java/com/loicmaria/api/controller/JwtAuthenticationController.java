@@ -5,6 +5,7 @@ import com.loicmaria.api.DTO.JwtRequest;
 import com.loicmaria.api.DTO.JwtResponse;
 import com.loicmaria.api.config.JWT.JwtTokenUtil;
 import com.loicmaria.api.config.Security.MyUserDetails;
+import com.loicmaria.api.model.User;
 import com.loicmaria.api.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,12 +46,14 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        User user = this.userService.findByUsername(authenticationRequest.getUsername());
+
+        return ResponseEntity.ok(new JwtResponse(token, user));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
-        return ResponseEntity.ok(userService.save(user));
+    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto) throws Exception {
+        return ResponseEntity.ok(userService.save(userDto));
     }
 
     private void authenticate(String username, String password) throws Exception {

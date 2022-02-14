@@ -14,7 +14,7 @@ import java.util.Collection;
 public class UserController {
 
     @Autowired
-    UserServiceImpl userServiceImpl;
+    UserServiceImpl userService;
 
     /**
      * Create - Add a new user
@@ -24,7 +24,7 @@ public class UserController {
      */
     @PostMapping
     public UserDto createUser(@RequestBody UserDto userDto) {
-        return userServiceImpl.save(userDto);
+        return userService.save(userDto);
     }
 
 
@@ -36,7 +36,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public UserDto getUser(@PathVariable("id") int id) {
-        UserDto userDto = userServiceImpl.get(id);
+        UserDto userDto = userService.get(id);
             return userDto;
     }
 
@@ -47,7 +47,7 @@ public class UserController {
      */
     @GetMapping
     public Collection<UserDto> getUsers() {
-        return userServiceImpl.getter();
+        return userService.getter();
     }
 
     /**
@@ -59,7 +59,7 @@ public class UserController {
      */
     @PutMapping("/{id}")
     public UserDto updateUser(@PathVariable("id") int id, @RequestBody UserDto userDto) {
-        userServiceImpl.save(userDto);
+        userService.save(userDto);
         return userDto;
     }
 
@@ -71,6 +71,6 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") int id) {
-        userServiceImpl.delete(id);
+        userService.delete(id);
     }
 }

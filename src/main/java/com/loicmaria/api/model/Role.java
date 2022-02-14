@@ -4,7 +4,6 @@ package com.loicmaria.api.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @Entity
@@ -18,7 +17,5 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "role")
-    private Collection<User> users;
 
 }

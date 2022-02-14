@@ -22,6 +22,9 @@ public class CopyController {
      */
     @PostMapping
     public CopyDto createCopy(@RequestBody CopyDto copyDto) {
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Exemplaire : " + copyDto);
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
         return copyServiceImpl.save(copyDto);
     }
 

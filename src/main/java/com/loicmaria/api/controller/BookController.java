@@ -71,4 +71,10 @@ public class BookController {
     public void deleteBook(@PathVariable("id") int id) {
         bookService.delete(id);
     }
+
+
+    @GetMapping("/{title}/{language}")
+    public Collection<BookDto> getBooksBySearch(@PathVariable("title") String title, @PathVariable("language") String language){
+     return bookService.findByTitleAndLanguage(title, language);
+    }
 }

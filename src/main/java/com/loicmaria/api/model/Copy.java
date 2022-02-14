@@ -4,6 +4,7 @@ package com.loicmaria.api.model;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +18,8 @@ public class Copy {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    private int copies;
 
     private String publisherName;
 
@@ -34,8 +37,9 @@ public class Copy {
     @Column
     private LocalDateTime updateDate;
 
-    @OneToOne
-    private Author author;
-    @OneToOne
+    @ManyToOne
     private Book book;
+    @OneToOne
+    private Type type;
+
 }
