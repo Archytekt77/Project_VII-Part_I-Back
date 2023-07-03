@@ -4,6 +4,7 @@ package com.loicmaria.api.controller;
 import com.loicmaria.api.DTO.UserDto;
 import com.loicmaria.api.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -16,17 +17,17 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
+
     /**
      * Create - Add a new user
      *
      * @param userDto An object user
      * @return The user object saved
      */
-    @PostMapping
-    public UserDto createUser(@RequestBody UserDto userDto) {
-        return userService.save(userDto);
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto){
+        return ResponseEntity.ok(userService.save(userDto));
     }
-
 
     /**
      * Read - Get one user
@@ -73,4 +74,5 @@ public class UserController {
     public void deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
     }
+
 }

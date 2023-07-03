@@ -23,9 +23,6 @@ public abstract class Services<U, T, S extends JpaRepository<U, Integer>> {
     public abstract T convertEntityToDto(U val);
 
     public Collection<T> convertCollectionToDto(Collection<U> val){
-
-        System.out.println(val);
-
         Collection<T> val2 = new ArrayList<>();
         Iterator<U> val3 = val.iterator();
 

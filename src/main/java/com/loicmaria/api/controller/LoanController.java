@@ -71,4 +71,6 @@ public class LoanController {
     public void deleteLoan(@PathVariable("id") int id) {
         loanService.delete(id);
     }
+
+
 }

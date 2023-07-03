@@ -21,6 +21,8 @@ public class Copy {
 
     private int copies;
 
+    private String language;
+
     private String publisherName;
 
     private Date publicationDate;

@@ -5,11 +5,14 @@ import com.loicmaria.api.model.Role;
 import com.loicmaria.api.model.User;
 import com.loicmaria.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -51,6 +54,20 @@ public class UserServiceImpl extends Services<User, UserDto, UserRepository>{
     }
 
     /**
+     * <b>Permet d'avoir l'utilisateur connecté.</b>
+     * @return L'utilisateur connecté ou null si l'utilisateur n'est pas inscrit ou connecté.
+     */
+    public User getLoggedUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional<User> user = this.repository.findByUsername(username);
+        if(user.isPresent()){
+            return user.get();
+        }
+        return null;
+    }
+
+    /**
      * <b>Permet de savoir si l'utilisateur est Administrateur</b>
      * @param user L'utilisateur à vérifier.
      * @return True s'il est 'Admin'
@@ -59,12 +76,9 @@ public class UserServiceImpl extends Services<User, UserDto, UserRepository>{
         return user.getRoleList().stream().anyMatch(o -> o.getName().equals("ROLE_ADMIN"));
     }
 
-
-
-
-
-    public User findByUsername(String username){
+    public Optional<User> findByUsername(String username){
         return this.repository.findByUsername(username);
     }
+
 
 }

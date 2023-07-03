@@ -33,7 +33,7 @@ public class Loan {
     private LocalDateTime updateDate;
 
     @OneToOne
-    private Book book;
+    private Copy copy;
     @ManyToOne
     private User user;
 }

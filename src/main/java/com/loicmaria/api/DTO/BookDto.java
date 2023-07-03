@@ -19,8 +19,6 @@ public class BookDto {
 
     private String summary;
 
-    private String language;
-
     private Date publicationDate;
 
     private LocalDateTime createDate;

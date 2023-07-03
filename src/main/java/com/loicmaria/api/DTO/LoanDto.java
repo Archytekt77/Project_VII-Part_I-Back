@@ -17,7 +17,7 @@ public class LoanDto {
 
     private LocalDateTime updateDate;
 
-    private BookDto book;
+    private CopyDto copyDto;
 
     private UserDto user;
 }

@@ -73,8 +73,8 @@ public class BookController {
     }
 
 
-    @GetMapping("/{title}/{language}")
-    public Collection<BookDto> getBooksBySearch(@PathVariable("title") String title, @PathVariable("language") String language){
-     return bookService.findByTitleAndLanguage(title, language);
+    @GetMapping("/{title}")
+    public Collection<BookDto> getBooksBySearch(@PathVariable("title") String title){
+     return bookService.findByTitle(title);
     }
 }

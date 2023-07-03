@@ -24,8 +24,6 @@ public class Book {
 
     private String summary;
 
-    private String language;
-
     private Date publicationDate;
 
     @PrePersist
