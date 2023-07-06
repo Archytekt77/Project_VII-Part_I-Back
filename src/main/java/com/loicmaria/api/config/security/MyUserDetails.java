@@ -13,9 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 public class MyUserDetails implements UserDetailsService {
@@ -29,7 +27,7 @@ public class MyUserDetails implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
+                getAuthorities(user));
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {

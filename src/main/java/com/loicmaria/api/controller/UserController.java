@@ -24,8 +24,9 @@ public class UserController {
      * @param userDto An object user
      * @return The user object saved
      */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody UserDto userDto){
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
+        System.out.println("ok");
         return ResponseEntity.ok(userService.save(userDto));
     }
 
