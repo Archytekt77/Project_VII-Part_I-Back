@@ -4,26 +4,29 @@ package com.loicmaria.api.controller;
 import com.loicmaria.api.DTO.AuthorDto;
 import com.loicmaria.api.service.AuthorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RequestMapping("/authors")
+
 @RestController
+@RequestMapping("/authors")
 public class AuthorController {
 
     @Autowired
     AuthorServiceImpl authorService;
 
+
     /**
      * Create - Add a new author
      *
      * @param authorDto An object author
-     * @return The author object saved
+     * @return ResponseEntity.ok
      */
-    @PostMapping
-    public AuthorDto createAuthor(@RequestBody AuthorDto authorDto) {
-        return authorService.save(authorDto);
+    @PostMapping("/create")
+    public ResponseEntity<?> createAuthor(@RequestBody AuthorDto authorDto) {
+        return ResponseEntity.ok(authorService.save(authorDto));
     }
 
 
@@ -44,7 +47,7 @@ public class AuthorController {
      *
      * @return - An Iterable object of Author full filled
      */
-    @GetMapping
+    @GetMapping("/all")
     public Collection<AuthorDto> getAuthors() {
         return authorService.getter();
     }

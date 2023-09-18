@@ -29,7 +29,7 @@ public class LoanServiceImpl extends Services<Loan, LoanDto, LoanRepository> {
     @Override
     public LoanDto save (LoanDto loanDto){
         Loan loan = this.convertDtoToEntity(loanDto);
-        loan.setUser(this.userService.getLoggedUser());
+       // loan.setUser(this.userService.getLoggedUser());
         loanDto = this.convertEntityToDto(loan);
         return loanDto;
     }

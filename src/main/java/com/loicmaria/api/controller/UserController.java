@@ -22,11 +22,10 @@ public class UserController {
      * Create - Add a new user
      *
      * @param userDto An object user
-     * @return The user object saved
+     * @return ResponseEntity.ok
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
-        System.out.println("ok");
         return ResponseEntity.ok(userService.save(userDto));
     }
 
@@ -47,7 +46,7 @@ public class UserController {
      *
      * @return - An Iterable object of User full filled
      */
-    @GetMapping
+    @GetMapping("/all")
     public Collection<UserDto> getUsers() {
         return userService.getter();
     }
@@ -55,12 +54,11 @@ public class UserController {
     /**
      * Update - Update an existing user
      *
-     * @param id   - The id of the user to update
      * @param userDto - The user object updated
      * @return The currentUser if he is present or null
      */
     @PutMapping("/{id}")
-    public UserDto updateUser(@PathVariable("id") int id, @RequestBody UserDto userDto) {
+    public UserDto updateUser(@RequestBody UserDto userDto) {
         userService.save(userDto);
         return userDto;
     }

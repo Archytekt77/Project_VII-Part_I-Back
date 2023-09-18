@@ -1,11 +1,14 @@
 package com.loicmaria.api.controller;
 
+
 import com.loicmaria.api.DTO.BookDto;
 import com.loicmaria.api.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+
 
 @RestController
 @RequestMapping("/books")
@@ -14,15 +17,16 @@ public class BookController {
     @Autowired
     BookServiceImpl bookService;
 
+
     /**
      * Create - Add a new book
      *
      * @param bookDto An object book
-     * @return The book object saved
+     * @return ResponseEntity.ok
      */
-    @PostMapping
-    public BookDto createBook(@RequestBody BookDto bookDto) {
-        return bookService.save(bookDto);
+    @PostMapping("/create")
+    public ResponseEntity<?> createBook(@RequestBody BookDto bookDto) {
+        return ResponseEntity.ok(bookService.save(bookDto));
     }
 
 
@@ -43,7 +47,7 @@ public class BookController {
      *
      * @return - An Iterable object of Book full filled
      */
-    @GetMapping
+    @GetMapping("/all")
     public Collection<BookDto> getBooks() {
         return bookService.getter();
     }

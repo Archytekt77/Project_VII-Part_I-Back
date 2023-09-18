@@ -4,9 +4,11 @@ package com.loicmaria.api.controller;
 import com.loicmaria.api.DTO.TypeDto;
 import com.loicmaria.api.service.TypeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+
 
 @RestController
 @RequestMapping("/types")
@@ -15,15 +17,16 @@ public class TypeController {
     @Autowired
     TypeServiceImpl typeService;
 
+
     /**
      * Create - Add a new type
      *
      * @param typeDto An object type
-     * @return The type object saved
+     * @return ResponseEntity.ok
      */
-    @PostMapping
-    public TypeDto createType(@RequestBody TypeDto typeDto) {
-        return typeService.save(typeDto);
+    @PostMapping("/create")
+    public ResponseEntity<?> createType(@RequestBody TypeDto typeDto) {
+        return ResponseEntity.ok(typeService.save(typeDto));
     }
 
 
@@ -44,7 +47,7 @@ public class TypeController {
      *
      * @return - An Iterable object of Type full filled
      */
-    @GetMapping
+    @GetMapping("/all")
     public Collection<TypeDto> getTypes() {
         return typeService.getter();
     }

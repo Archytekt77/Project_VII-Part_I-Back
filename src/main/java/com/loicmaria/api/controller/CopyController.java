@@ -1,31 +1,32 @@
 package com.loicmaria.api.controller;
 
+
 import com.loicmaria.api.DTO.CopyDto;
 import com.loicmaria.api.service.CopyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RequestMapping("/copies")
+
 @RestController
+@RequestMapping("/copies")
 public class CopyController {
     
     @Autowired
     CopyServiceImpl copyServiceImpl;
 
+
     /**
      * Create - Add a new copy
      *
      * @param copyDto An object copy
-     * @return The copy object saved
+     * @return ResponseEntity.ok
      */
-    @PostMapping
-    public CopyDto createCopy(@RequestBody CopyDto copyDto) {
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("Exemplaire : " + copyDto);
-        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
-        return copyServiceImpl.save(copyDto);
+    @PostMapping("/create")
+    public ResponseEntity<?> createCopy(@RequestBody CopyDto copyDto) {
+        return ResponseEntity.ok(copyServiceImpl.save(copyDto));
     }
 
 
@@ -46,7 +47,7 @@ public class CopyController {
      *
      * @return - An Iterable object of Copy full filled
      */
-    @GetMapping
+    @GetMapping("/all")
     public Collection<CopyDto> getCopies() {
         return copyServiceImpl.getter();
     }

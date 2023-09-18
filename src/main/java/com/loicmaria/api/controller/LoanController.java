@@ -1,14 +1,17 @@
 package com.loicmaria.api.controller;
 
+
 import com.loicmaria.api.DTO.LoanDto;
 import com.loicmaria.api.service.LoanServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+
 @RestController
-@RequestMapping("/Loans")
+@RequestMapping("/loans")
 public class LoanController {
 
     @Autowired
@@ -18,11 +21,11 @@ public class LoanController {
      * Create - Add a new loan
      *
      * @param loanDto An object loan
-     * @return The loan object saved
+     * @return ResponseEntity.ok
      */
-    @PostMapping
-    public LoanDto createLoan(@RequestBody LoanDto loanDto) {
-        return loanService.save(loanDto);
+    @PostMapping("/create")
+    public ResponseEntity<?> createLoan(@RequestBody LoanDto loanDto) {
+        return ResponseEntity.ok(loanService.save(loanDto));
     }
 
 
@@ -43,7 +46,7 @@ public class LoanController {
      *
      * @return - An Iterable object of Loan full filled
      */
-    @GetMapping
+    @GetMapping("/all")
     public Collection<LoanDto> getLoans() {
         return loanService.getter();
     }
