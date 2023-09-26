@@ -36,7 +36,7 @@ public class AuthorController {
      * @param id The id of the author
      * @return An Author object full filled
      */
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public AuthorDto getAuthor(@PathVariable("id") int id) {
         AuthorDto authorDto = authorService.get(id);
         return authorDto;
@@ -59,7 +59,7 @@ public class AuthorController {
      * @param authorDto - The author object updated
      * @return The currentAuthor if he is present or null
      */
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public AuthorDto updateAuthor(@PathVariable("id") int id, @RequestBody AuthorDto authorDto) {
         authorService.save(authorDto);
         return authorDto;
@@ -71,7 +71,7 @@ public class AuthorController {
      *
      * @param id - The id of the author to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteAuthor(@PathVariable("id") int id) {
         authorService.delete(id);
     }

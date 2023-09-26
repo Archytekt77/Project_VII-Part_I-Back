@@ -1,7 +1,9 @@
 package com.loicmaria.api.controller;
 
 
+import com.loicmaria.api.DTO.LoanDto;
 import com.loicmaria.api.DTO.UserDto;
+import com.loicmaria.api.service.LoanServiceImpl;
 import com.loicmaria.api.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,11 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
+    @Autowired
+    LoanServiceImpl loanService;
+
+    //      CRUD
+    //----------------------------------------------------------------------------------------------------------------
 
     /**
      * Create - Add a new user
@@ -35,7 +42,7 @@ public class UserController {
      * @param id The id of the user
      * @return An User object full filled
      */
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public UserDto getUser(@PathVariable("id") int id) {
         UserDto userDto = userService.get(id);
             return userDto;
@@ -57,21 +64,32 @@ public class UserController {
      * @param userDto - The user object updated
      * @return The currentUser if he is present or null
      */
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public UserDto updateUser(@RequestBody UserDto userDto) {
         userService.save(userDto);
         return userDto;
     }
-
 
     /**
      * Delete - Delete an user
      *
      * @param id - The id of the user to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    @GetMapping("/username/{username}")
+    public UserDto getUserByUsername(@PathVariable("username") String username){
+        UserDto userDto = userService.findByUsername(username);
+        return userDto;
+    }
+
+
+
 
 }

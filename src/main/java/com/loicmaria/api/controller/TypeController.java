@@ -36,7 +36,7 @@ public class TypeController {
      * @param id The id of the type
      * @return An Type object full filled
      */
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public TypeDto getType(@PathVariable("id") int id) {
         TypeDto typeDto = typeService.get(id);
         return typeDto;
@@ -59,7 +59,7 @@ public class TypeController {
      * @param typeDto - The type object updated
      * @return The currentType if he is present or null
      */
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public TypeDto updateType(@PathVariable("id") int id, @RequestBody TypeDto typeDto) {
         typeService.save(typeDto);
         return typeDto;
@@ -71,7 +71,7 @@ public class TypeController {
      *
      * @param id - The id of the type to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteType(@PathVariable("id") int id) {
         typeService.delete(id);
     }

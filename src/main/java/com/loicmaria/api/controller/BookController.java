@@ -36,8 +36,8 @@ public class BookController {
      * @param id The id of the book
      * @return An Book object full filled
      */
-    @GetMapping("/{id}")
-    public BookDto getBook(@PathVariable("id") int id) {
+    @GetMapping("/id/{id}")
+    public BookDto getBook(@RequestParam("id") int id) {
         BookDto bookDto = bookService.get(id);
         return bookDto;
     }
@@ -59,7 +59,7 @@ public class BookController {
      * @param bookDto - The book object updated
      * @return The currentBook if he is present or null
      */
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public BookDto updateBook(@PathVariable("id") int id, @RequestBody BookDto bookDto) {
         bookService.save(bookDto);
         return bookDto;
@@ -71,13 +71,13 @@ public class BookController {
      *
      * @param id - The id of the book to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteBook(@PathVariable("id") int id) {
         bookService.delete(id);
     }
 
 
-    @GetMapping("/{title}")
+    @GetMapping("/title/{title}")
     public Collection<BookDto> getBooksBySearch(@PathVariable("title") String title){
      return bookService.findByTitle(title);
     }

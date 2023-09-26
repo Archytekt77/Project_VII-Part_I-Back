@@ -36,7 +36,7 @@ public class CopyController {
      * @param id The id of the copy
      * @return An Copy object full filled
      */
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public CopyDto getCopy(@PathVariable("id") int id) {
         CopyDto copyDto = copyServiceImpl.get(id);
         return copyDto;
@@ -59,7 +59,7 @@ public class CopyController {
      * @param copyDto - The copy object updated
      * @return The currentCopy if he is present or null
      */
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public CopyDto updateCopy(@PathVariable("id") int id, @RequestBody CopyDto copyDto) {
         copyServiceImpl.save(copyDto);
         return copyDto;
@@ -71,8 +71,15 @@ public class CopyController {
      *
      * @param id - The id of the copy to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteCopy(@PathVariable("id") int id) {
         copyServiceImpl.delete(id);
+    }
+
+
+    @GetMapping("/book_id/{id}")
+    public Collection<CopyDto> findByBook_Id(@PathVariable int id){
+        Collection<CopyDto> copyDtoCollection = copyServiceImpl.findByBook_Id(id);
+        return copyDtoCollection;
     }
 }

@@ -17,6 +17,9 @@ public class LoanController {
     @Autowired
     LoanServiceImpl loanService;
 
+    //      CRUD
+    //----------------------------------------------------------------------------------------------------------------
+
     /**
      * Create - Add a new loan
      *
@@ -28,14 +31,13 @@ public class LoanController {
         return ResponseEntity.ok(loanService.save(loanDto));
     }
 
-
     /**
      * Read - Get one loan
      *
      * @param id The id of the loan
      * @return An Loan object full filled
      */
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public LoanDto getLoan(@PathVariable("id") int id) {
         LoanDto loanDto = loanService.get(id);
         return loanDto;
@@ -58,22 +60,31 @@ public class LoanController {
      * @param loanDto - The loan object updated
      * @return The currentLoan if he is present or null
      */
-    @PutMapping("/{id}")
+    @PutMapping("/id/{id}")
     public LoanDto updateLoan(@PathVariable("id") int id, @RequestBody LoanDto loanDto) {
         loanService.save(loanDto);
         return loanDto;
     }
-
 
     /**
      * Delete - Delete an loan
      *
      * @param id - The id of the loan to delete
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public void deleteLoan(@PathVariable("id") int id) {
         loanService.delete(id);
     }
+
+    //----------------------------------------------------------------------------------------------------------------
+
+
+    @GetMapping("/by_user_id")
+    public Collection<LoanDto> getLoansByUser(@PathVariable("id") int id, String status){
+        Collection<LoanDto> loanDtoCollection = loanService.findByUserIdAndStatus(id, status);
+        return loanDtoCollection;
+    }
+
 
 
 }

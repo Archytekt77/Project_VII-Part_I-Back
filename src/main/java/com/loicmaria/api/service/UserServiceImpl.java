@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -48,18 +47,15 @@ public class UserServiceImpl extends Services<User, UserDto, UserRepository>{
     }
 
 
-
     /**
-     * <b>Permet de savoir si l'utilisateur est Administrateur</b>
-     * @param user L'utilisateur à vérifier.
-     * @return True s'il est 'Admin'
+     * <b>Récupérer un utilisateur avec son peudo</b>
+     * @param username Pseudo
+     * @return L'utilisateur correspondant au pseudo.
      */
-    public boolean isAdmin(User user){
-        return user.getRoleList().stream().anyMatch(o -> o.getName().equals("ROLE_ADMIN"));
-    }
-
-    public Optional<User> findByUsername(String username){
-        return this.repository.findByUsername(username);
+    public UserDto findByUsername(String username){
+        User user = this.repository.findByUsername(username);
+        UserDto userDto = this.convertEntityToDto(user);
+        return userDto;
     }
 
 
