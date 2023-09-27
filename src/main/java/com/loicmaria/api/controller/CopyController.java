@@ -18,6 +18,9 @@ public class CopyController {
     CopyServiceImpl copyServiceImpl;
 
 
+    //      CRUD
+    //----------------------------------------------------------------------------------------------------------------
+
     /**
      * Create - Add a new copy
      *
@@ -76,7 +79,14 @@ public class CopyController {
         copyServiceImpl.delete(id);
     }
 
+    //----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Read - Get the collection of copies linked to the book.
+     *
+     * @param id The id of a book.
+     * @return The collection of copyDTO linked to the book.
+     */
     @GetMapping("/book_id/{id}")
     public Collection<CopyDto> findByBook_Id(@PathVariable int id){
         Collection<CopyDto> copyDtoCollection = copyServiceImpl.findByBook_Id(id);

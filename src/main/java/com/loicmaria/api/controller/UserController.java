@@ -1,9 +1,8 @@
 package com.loicmaria.api.controller;
 
 
-import com.loicmaria.api.DTO.LoanDto;
 import com.loicmaria.api.DTO.UserDto;
-import com.loicmaria.api.service.LoanServiceImpl;
+import com.loicmaria.api.service.BookingServiceImpl;
 import com.loicmaria.api.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class UserController {
     UserServiceImpl userService;
 
     @Autowired
-    LoanServiceImpl loanService;
+    BookingServiceImpl loanService;
 
     //      CRUD
     //----------------------------------------------------------------------------------------------------------------
@@ -32,7 +31,7 @@ public class UserController {
      * @return ResponseEntity.ok
      */
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
+    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.save(userDto));
     }
 
@@ -45,7 +44,7 @@ public class UserController {
     @GetMapping("/id/{id}")
     public UserDto getUser(@PathVariable("id") int id) {
         UserDto userDto = userService.get(id);
-            return userDto;
+        return userDto;
     }
 
     /**
@@ -84,12 +83,10 @@ public class UserController {
 
 
     @GetMapping("/username/{username}")
-    public UserDto getUserByUsername(@PathVariable("username") String username){
+    public UserDto getUserByUsername(@PathVariable("username") String username) {
         UserDto userDto = userService.findByUsername(username);
         return userDto;
     }
-
-
 
 
 }

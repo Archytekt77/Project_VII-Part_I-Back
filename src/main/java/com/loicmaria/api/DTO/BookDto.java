@@ -15,8 +15,6 @@ public class BookDto {
 
     private String title;
 
-    private String collection;
-
     private String summary;
 
     private Date publicationDate;

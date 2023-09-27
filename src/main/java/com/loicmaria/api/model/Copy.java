@@ -21,10 +21,13 @@ public class Copy {
 
     private int copies;
 
+    private String collection;
+
     private String language;
 
     private String publisherName;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date publicationDate;
 
     @PrePersist

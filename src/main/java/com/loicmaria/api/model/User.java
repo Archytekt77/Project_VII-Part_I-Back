@@ -32,7 +32,7 @@ public class User implements Serializable {
                     inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> roleList;
     @OneToMany(mappedBy = "user")
-    private Collection<Loan> loanCollection;
+    private Collection<Booking> bookingCollection;
 
 
 }

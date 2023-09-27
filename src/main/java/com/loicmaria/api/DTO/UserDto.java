@@ -18,5 +18,5 @@ public class UserDto {
 
     private List<RoleDto> roleList;
 
-    private Collection<LoanDto> loanCollection;
+    private Collection<BookingDto> bookingDtoCollection;
 }

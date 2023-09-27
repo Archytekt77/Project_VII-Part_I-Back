@@ -17,6 +17,8 @@ public class BookController {
     @Autowired
     BookServiceImpl bookService;
 
+    //      CRUD
+    //----------------------------------------------------------------------------------------------------------------
 
     /**
      * Create - Add a new book
@@ -76,7 +78,14 @@ public class BookController {
         bookService.delete(id);
     }
 
+    //----------------------------------------------------------------------------------------------------------------
 
+
+    /**
+     * Read - Get the
+     * @param title
+     * @return
+     */
     @GetMapping("/title/{title}")
     public Collection<BookDto> getBooksBySearch(@PathVariable("title") String title){
      return bookService.findByTitle(title);

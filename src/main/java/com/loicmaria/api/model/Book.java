@@ -3,6 +3,7 @@ package com.loicmaria.api.model;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,10 +21,9 @@ public class Book {
 
     private String title;
 
-    private String collection;
-
     private String summary;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date publicationDate;
 
     @PrePersist

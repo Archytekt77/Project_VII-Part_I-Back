@@ -12,6 +12,8 @@ public class CopyDto {
 
     private int copies;
 
+    private String collection;
+
     private String language;
 
     private String publisherName;

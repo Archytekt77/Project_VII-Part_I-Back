@@ -55,12 +55,11 @@ public class AuthorController {
     /**
      * Update - Update an existing author
      *
-     * @param id     - The id of the author to update
      * @param authorDto - The author object updated
      * @return The currentAuthor if he is present or null
      */
-    @PutMapping("/id/{id}")
-    public AuthorDto updateAuthor(@PathVariable("id") int id, @RequestBody AuthorDto authorDto) {
+    @PutMapping("/update")
+    public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto) {
         authorService.save(authorDto);
         return authorDto;
     }

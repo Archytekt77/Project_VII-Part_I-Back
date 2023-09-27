@@ -5,12 +5,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "loans")
-public class Loan {
+@Table(name = "bookings")
+public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +19,14 @@ public class Loan {
 
     private String status;
 
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
     private boolean extraTime;
+
+
+
 
     @PrePersist
     protected void prePersist() {
@@ -28,6 +36,7 @@ public class Loan {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDate;
+
     @UpdateTimestamp
     @Column
     private LocalDateTime updateDate;

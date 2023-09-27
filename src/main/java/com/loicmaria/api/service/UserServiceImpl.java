@@ -12,29 +12,28 @@ import java.util.List;
 
 
 @Service
-public class UserServiceImpl extends Services<User, UserDto, UserRepository>{
-
+public class UserServiceImpl extends Services<User, UserDto, UserRepository> {
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     RoleServiceImpl roleService;
 
+
     @Override
-    public User convertDtoToEntity(UserDto userDto){
+    public User convertDtoToEntity(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
         return user;
     }
 
     @Override
-    public UserDto convertEntityToDto(User user){
+    public UserDto convertEntityToDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
     }
 
     @Override
-    public UserDto save(UserDto userDto){
+    public UserDto save(UserDto userDto) {
         User user = this.convertDtoToEntity(userDto);
         Role role = this.roleService.findByName("ROLE_USER");
         List<Role> roles = new ArrayList<>();
@@ -47,12 +46,7 @@ public class UserServiceImpl extends Services<User, UserDto, UserRepository>{
     }
 
 
-    /**
-     * <b>Récupérer un utilisateur avec son peudo</b>
-     * @param username Pseudo
-     * @return L'utilisateur correspondant au pseudo.
-     */
-    public UserDto findByUsername(String username){
+    public UserDto findByUsername(String username) {
         User user = this.repository.findByUsername(username);
         UserDto userDto = this.convertEntityToDto(user);
         return userDto;
