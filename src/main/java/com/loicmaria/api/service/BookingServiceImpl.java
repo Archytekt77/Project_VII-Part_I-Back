@@ -41,7 +41,7 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
 
         copyService.save(copyService.convertEntityToDto(copy));
 
-        booking.setStatus("in progress");
+        booking.setStatus("inProgress");
         booking.setExtraTime(false);
         booking.setStartDate(LocalDate.now());
         booking.setEndDate(LocalDate.now().plusWeeks(4));
@@ -80,7 +80,7 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
     }
 
 
-    public Collection<BookingDto> findByUserIdAndStatus(int id, String status) {
+    public Collection<BookingDto> findByUser_IdAndStatus(int id, String status) {
         Collection<Booking> bookingCollection = repository.findByUser_IdAndStatus(id, status);
         Collection<BookingDto> bookingDtoCollection = convertCollectionToDto(bookingCollection);
         return bookingDtoCollection;

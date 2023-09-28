@@ -27,10 +27,10 @@ public class BookingController {
      * @param copyId The id of the copy to add.
      * @return ResponseEntity.ok
      */
-    @PostMapping("/create")
+    /*@PostMapping("/create")
     public ResponseEntity<?> createBooking(@RequestBody int userId,@RequestBody int copyId) {
         return ResponseEntity.ok(bookingService.addNewBooking(userId, copyId));
-    }
+    }*/
 
     /**
      * Read - Get one booking
@@ -110,8 +110,8 @@ public class BookingController {
      * @return The collection of booking's user.
      */
     @GetMapping("/by_user_id/{id}")
-    public Collection<BookingDto> getBookingsByUser(@PathVariable("id") int id, String status) {
-        return bookingService.findByUserIdAndStatus(id, status);
+    public Collection<BookingDto> getBookingsByUser_IdAndStatus(@PathVariable("id") int id, String status) {
+        return bookingService.findByUser_IdAndStatus(id, status);
     }
 
 
