@@ -22,7 +22,7 @@ public class BookingDto {
 
     private LocalDateTime updateDate;
 
-    private CopyDto copyDto;
+    private CopyDto copy;
 
     private UserDto user;
 }

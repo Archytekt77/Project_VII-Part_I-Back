@@ -53,8 +53,8 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
         return this.convertEntityToDto(booking);
     }
 
-    public BookingDto extendBooking(BookingDto bookingDto) {
-        Booking booking = this.convertDtoToEntity(bookingDto);
+    public BookingDto extendBooking(int bookingId) {
+        Booking booking = this.convertDtoToEntity(this.get(bookingId));
         booking.setStatus("extend");
         booking.setExtraTime(true);
         booking.setEndDate(booking.getEndDate().plusWeeks(4));
@@ -64,8 +64,8 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
         return this.convertEntityToDto(booking);
     }
 
-    public BookingDto closeBooking(BookingDto bookingDto) {
-        Booking booking = this.convertDtoToEntity(bookingDto);
+    public BookingDto closeBooking(int bookingId) {
+        Booking booking = this.convertDtoToEntity(this.get(bookingId));
         Copy copy = booking.getCopy();
 
         copy.setCopies(copy.getCopies() + 1);

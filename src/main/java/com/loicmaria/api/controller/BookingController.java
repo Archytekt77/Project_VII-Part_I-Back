@@ -2,6 +2,7 @@ package com.loicmaria.api.controller;
 
 
 import com.loicmaria.api.DTO.BookingDto;
+import com.loicmaria.api.model.Booking;
 import com.loicmaria.api.service.BookingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +28,10 @@ public class BookingController {
      * @param copyId The id of the copy to add.
      * @return ResponseEntity.ok
      */
-    /*@PostMapping("/create")
-    public ResponseEntity<?> createBooking(@RequestBody int userId,@RequestBody int copyId) {
+    @PostMapping("/create/{userId}/{copyId}")
+    public ResponseEntity<?> createBooking(@PathVariable int userId, @PathVariable int copyId) {
         return ResponseEntity.ok(bookingService.addNewBooking(userId, copyId));
-    }*/
+    }
 
     /**
      * Read - Get one booking
@@ -80,24 +81,24 @@ public class BookingController {
     /**
      * Update - booking extension update
      *
-     * @param bookingDto - The booking object updated
+     * @param bookingId - The id of booking object updated
      * @return The currentBooking if he is present or null
      */
-    @PutMapping("/extend")
-    public BookingDto extendBooking(@RequestBody BookingDto bookingDto) {
-        bookingService.extendBooking(bookingDto);
+    @PutMapping("/extend/{id}")
+    public BookingDto extendBooking(@PathVariable("id") int bookingId) {
+        BookingDto bookingDto = bookingService.extendBooking(bookingId);
         return bookingDto;
     }
 
     /**
      * Update - Closing booking
      *
-     * @param bookingDto The booking object updated
+     * @param bookingId - The id of the booking object updated
      * @return The currentBooking if he is present or null
      */
-    @PutMapping("/close")
-    public BookingDto closeBooking(@RequestBody BookingDto bookingDto) {
-        bookingService.closeBooking(bookingDto);
+    @PutMapping("/close/{id}")
+    public BookingDto closeBooking(@PathVariable("id") int bookingId) {
+        BookingDto bookingDto = bookingService.closeBooking(bookingId);
         return bookingDto;
     }
 
@@ -111,6 +112,7 @@ public class BookingController {
      */
     @GetMapping("/by_user_id/{id}")
     public Collection<BookingDto> getBookingsByUser_IdAndStatus(@PathVariable("id") int id, String status) {
+        System.out.println("ICI : " + id + ", " + status);
         return bookingService.findByUser_IdAndStatus(id, status);
     }
 
