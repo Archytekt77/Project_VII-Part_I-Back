@@ -24,16 +24,9 @@ public class BookServiceImpl extends Services<Book, BookDto, BookRepository> {
         return bookDto;
     }
 
-    /**
-     * <b>Retourne une liste de livres pour le système de recherche.</b>
-     * Permet de trouver les livres en prenant le titre.
-     * @param title Le titre du livre qui doit être trouvé.
-     * @return Une liste de livres.
-     */
     public Collection<BookDto> findByTitle(String title){
         Collection<Book> bookCollection = repository.findByTitle(title);
         Collection<BookDto> bookDtoCollection = convertCollectionToDto(bookCollection);
         return bookDtoCollection;
     }
-
 }

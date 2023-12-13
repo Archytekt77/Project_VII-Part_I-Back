@@ -51,6 +51,10 @@ public abstract class Services<U, T, S extends JpaRepository<U, Integer>> {
         return val;
     }
 
+    public boolean exists(int id){
+        return repository.existsById(id);
+    }
+
     public void delete(int id) {
         repository.deleteById(id);
     }

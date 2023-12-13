@@ -40,17 +40,19 @@ public class UserServiceImpl extends Services<User, UserDto, UserRepository> {
         roles.add(role);
         user.setRoleList(roles);
         userRepository.save(user);
-        userDto = this.convertEntityToDto(user);
 
-        return userDto;
+        return this.convertEntityToDto(user);
     }
 
+    public UserDto update(UserDto userDto){
+        User user = this.convertDtoToEntity(userDto);
+        userRepository.save(user);
+        return this.convertEntityToDto(user);
+    }
 
     public UserDto findByUsername(String username) {
         User user = this.repository.findByUsername(username);
         UserDto userDto = this.convertEntityToDto(user);
         return userDto;
     }
-
-
 }

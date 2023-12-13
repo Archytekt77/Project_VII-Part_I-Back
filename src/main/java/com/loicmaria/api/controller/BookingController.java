@@ -2,13 +2,14 @@ package com.loicmaria.api.controller;
 
 
 import com.loicmaria.api.DTO.BookingDto;
-import com.loicmaria.api.model.Booking;
 import com.loicmaria.api.service.BookingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 
 @RestController
@@ -18,103 +19,89 @@ public class BookingController {
     @Autowired
     BookingServiceImpl bookingService;
 
-    //      CRUD
+    //      CRUD Operations
     //----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Create - Add a new booking
-     *
-     * @param userId The id of the user to add.
-     * @param copyId The id of the copy to add.
-     * @return ResponseEntity.ok
-     */
-    @PostMapping("/create/{userId}/{copyId}")
-    public ResponseEntity<?> createBooking(@PathVariable int userId, @PathVariable int copyId) {
-        return ResponseEntity.ok(bookingService.addNewBooking(userId, copyId));
+    @PostMapping
+    public ResponseEntity<?> createBooking(
+            @RequestParam int userId,
+            @RequestParam int copyId) {
+
+        BookingDto createdBooking = bookingService.addNewBooking(userId, copyId);
+
+        if (createdBooking != null) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(createdBooking);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création de la réservation.");
+        }
     }
 
-    /**
-     * Read - Get one booking
-     *
-     * @param id The id of the booking
-     * @return An Booking object full filled
-     */
-    @GetMapping("/id/{id}")
-    public BookingDto getBooking(@PathVariable("id") int id) {
+    @GetMapping("/{id}")
+    public BookingDto getBooking(@PathVariable int id) {
         return bookingService.get(id);
     }
 
-    /**
-     * Read - Get all bookings
-     *
-     * @return - An Iterable object of Booking full filled
-     */
-    @GetMapping("/all")
+    @GetMapping
     public Collection<BookingDto> getBookings() {
         return bookingService.getter();
     }
 
-    /**
-     * Update - Update an existing booking
-     *
-     * @param bookingDto - The booking object updated
-     * @return The currentBooking if he is present or null
-     */
-    @PutMapping("/update")
-    public BookingDto updateBooking(@RequestBody BookingDto bookingDto) {
-        bookingService.save(bookingDto);
-        return bookingDto;
+    @PutMapping("/{id}")
+    public ResponseEntity<BookingDto> updateBooking(
+            @PathVariable int id,
+            @RequestBody BookingDto bookingDto) {
+
+        if (id != bookingDto.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+        bookingService.updateBooking(id, bookingDto);
+        return ResponseEntity.ok(bookingDto);
     }
 
-    /**
-     * Delete - Delete an booking
-     *
-     * @param id - The id of the booking to delete
-     */
-    @DeleteMapping("/id/{id}")
-    public void deleteBooking(@PathVariable("id") int id) {
-        bookingService.delete(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBooking(@PathVariable int id) {
+        boolean bookingExists = bookingService.exists(id);
+
+        if (bookingExists) {
+            bookingService.delete(id);
+            // Renvoie un code 204 (No Content) pour indiquer le succès de la suppression.
+            return ResponseEntity.noContent().build();
+        } else {
+            // Renvoie un code 404 (Not Found) si la réservation n'est pas trouvée.
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     //----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Update - booking extension update
-     *
-     * @param bookingId - The id of booking object updated
-     * @return The currentBooking if he is present or null
-     */
-    @PutMapping("/extend/{id}")
+    // Update booking for extension
+    @PutMapping("/{id}/extend")
     public BookingDto extendBooking(@PathVariable("id") int bookingId) {
-        BookingDto bookingDto = bookingService.extendBooking(bookingId);
-        return bookingDto;
+        return bookingService.extendBooking(bookingId);
     }
 
-    /**
-     * Update - Closing booking
-     *
-     * @param bookingId - The id of the booking object updated
-     * @return The currentBooking if he is present or null
-     */
-    @PutMapping("/close/{id}")
+    // Close a booking
+    @PutMapping("/{id}/close")
     public BookingDto closeBooking(@PathVariable("id") int bookingId) {
-        BookingDto bookingDto = bookingService.closeBooking(bookingId);
-        return bookingDto;
+        return bookingService.closeBooking(bookingId);
     }
 
-
-    /**
-     * Read - Get the collection of booking's user with the status.
-     *
-     * @param id     The id of the user.
-     * @param status The status of the booking.
-     * @return The collection of booking's user.
-     */
-    @GetMapping("/by_user_id/{id}")
-    public Collection<BookingDto> getBookingsByUser_IdAndStatus(@PathVariable("id") int id, String status) {
-        System.out.println("ICI : " + id + ", " + status);
-        return bookingService.findByUser_IdAndStatus(id, status);
+    // Get emails of users with bookings that have ended and are not finished
+    @GetMapping("/expired-emails")
+    public List<String> getExpiredBookings() {
+        return bookingService.listEmails();
     }
 
-
+    // Get the collection of bookings for a user with a specific status
+    @GetMapping("/user/{id}/status/{status}")
+    public Collection<BookingDto> getBookingsByUserAndStatus(
+            @PathVariable("id") int userId,
+            @PathVariable("status") String status) {
+        return bookingService.findByUser_IdAndStatus(userId, status);
+    }
 }

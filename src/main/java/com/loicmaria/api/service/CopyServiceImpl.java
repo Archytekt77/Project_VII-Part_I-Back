@@ -27,5 +27,4 @@ public class CopyServiceImpl extends Services<Copy, CopyDto, CopyRepository>{
         Collection<CopyDto> copyDtoCollection = convertCollectionToDto(copyCollection);
         return copyDtoCollection;
     }
-
 }

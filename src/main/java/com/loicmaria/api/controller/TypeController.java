@@ -4,6 +4,7 @@ package com.loicmaria.api.controller;
 import com.loicmaria.api.DTO.TypeDto;
 import com.loicmaria.api.service.TypeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,61 +19,55 @@ public class TypeController {
     TypeServiceImpl typeService;
 
 
-    /**
-     * Create - Add a new type
-     *
-     * @param typeDto An object type
-     * @return ResponseEntity.ok
-     */
-    @PostMapping("/create")
+    //      CRUD Operations
+    //----------------------------------------------------------------------------------------------------------------
+
+    @PostMapping
     public ResponseEntity<?> createType(@RequestBody TypeDto typeDto) {
-        return ResponseEntity.ok(typeService.save(typeDto));
+        TypeDto createdType = typeService.save(typeDto);
+
+        if (createdType != null){
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(createdType);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création du genre.");
+        }
     }
 
-
-    /**
-     * Read - Get one type
-     *
-     * @param id The id of the type
-     * @return An Type object full filled
-     */
-    @GetMapping("/id/{id}")
-    public TypeDto getType(@PathVariable("id") int id) {
-        TypeDto typeDto = typeService.get(id);
-        return typeDto;
+    @GetMapping("/{id}")
+    public TypeDto getType(@PathVariable int id) {
+        return typeService.get(id);
     }
 
-    /**
-     * Read - Get all types
-     *
-     * @return - An Iterable object of Type full filled
-     */
-    @GetMapping("/all")
+    @GetMapping
     public Collection<TypeDto> getTypes() {
         return typeService.getter();
     }
 
-    /**
-     * Update - Update an existing type
-     *
-     * @param id   - The id of the type to update
-     * @param typeDto - The type object updated
-     * @return The currentType if he is present or null
-     */
-    @PutMapping("/id/{id}")
-    public TypeDto updateType(@PathVariable("id") int id, @RequestBody TypeDto typeDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<TypeDto> updateType(
+            @PathVariable int id,
+            @RequestBody TypeDto typeDto) {
+
+        if (id != typeDto.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
         typeService.save(typeDto);
-        return typeDto;
+        return ResponseEntity.ok(typeDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteType(@PathVariable int id) {
+        boolean typeExists = typeService.exists(id);
 
-    /**
-     * Delete - Delete an type
-     *
-     * @param id - The id of the type to delete
-     */
-    @DeleteMapping("/id/{id}")
-    public void deleteType(@PathVariable("id") int id) {
-        typeService.delete(id);
+        if (typeExists){
+            typeService.delete(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

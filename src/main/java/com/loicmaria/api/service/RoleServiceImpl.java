@@ -24,12 +24,6 @@ public class RoleServiceImpl extends Services<Role, RoleDto, RoleRepository>{
         return roleDto;
     }
 
-
-    /**
-     * <b>Retourne un Rôle selon son nom.</b>
-     * @param name Le nom du rôle.
-     * @return Un Rôle.
-     */
     public Role findByName(String name){
         return this.repository.findByName(name);
     }

@@ -4,6 +4,7 @@ package com.loicmaria.api.controller;
 import com.loicmaria.api.DTO.BookDto;
 import com.loicmaria.api.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,77 +18,62 @@ public class BookController {
     @Autowired
     BookServiceImpl bookService;
 
-    //      CRUD
+    //      CRUD Operations
     //----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Create - Add a new book
-     *
-     * @param bookDto An object book
-     * @return ResponseEntity.ok
-     */
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createBook(@RequestBody BookDto bookDto) {
-        return ResponseEntity.ok(bookService.save(bookDto));
+        BookDto createdBook = bookService.save(bookDto);
+
+        if (createdBook != null){
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(createdBook);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création de l'utilisateur.");
+        }
     }
 
-
-    /**
-     * Read - Get one book
-     *
-     * @param id The id of the book
-     * @return An Book object full filled
-     */
-    @GetMapping("/id/{id}")
-    public BookDto getBook(@RequestParam("id") int id) {
-        BookDto bookDto = bookService.get(id);
-        return bookDto;
+    @GetMapping("/{id}")
+    public BookDto getBook(@PathVariable int id) {
+        return bookService.get(id);
     }
 
-    /**
-     * Read - Get all books
-     *
-     * @return - An Iterable object of Book full filled
-     */
-    @GetMapping("/all")
+    @GetMapping
     public Collection<BookDto> getBooks() {
         return bookService.getter();
     }
 
-    /**
-     * Update - Update an existing book
-     *
-     * @param id   - The id of the book to update
-     * @param bookDto - The book object updated
-     * @return The currentBook if he is present or null
-     */
-    @PutMapping("/id/{id}")
-    public BookDto updateBook(@PathVariable("id") int id, @RequestBody BookDto bookDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<BookDto> updateBook(
+            @PathVariable int id,
+            @RequestBody BookDto bookDto) {
+
+        if (id != bookDto.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
         bookService.save(bookDto);
-        return bookDto;
+        return ResponseEntity.ok(bookDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable int id) {
+        boolean bookExists = bookService.exists(id);
 
-    /**
-     * Delete - Delete an book
-     *
-     * @param id - The id of the book to delete
-     */
-    @DeleteMapping("/id/{id}")
-    public void deleteBook(@PathVariable("id") int id) {
-        bookService.delete(id);
+        if (bookExists){
+            bookService.delete(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     //----------------------------------------------------------------------------------------------------------------
 
-
-    /**
-     * Read - Get the
-     * @param title
-     * @return
-     */
     @GetMapping("/title/{title}")
-    public Collection<BookDto> getBooksBySearch(@PathVariable("title") String title){
+    public Collection<BookDto> getBooksBySearch(@PathVariable String title){
      return bookService.findByTitle(title);
     }
 }

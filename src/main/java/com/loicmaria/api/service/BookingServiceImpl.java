@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRepository> {
@@ -18,6 +20,8 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
     UserServiceImpl userService;
     @Autowired
     CopyServiceImpl copyService;
+    @Autowired
+    BookingServiceImpl bookingService;
 
     @Override
     public Booking convertDtoToEntity(BookingDto bookingDto) {
@@ -53,6 +57,18 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
         return this.convertEntityToDto(booking);
     }
 
+    public BookingDto updateBooking(int id, BookingDto bookingDto) {
+        Booking oldBooking = this.convertDtoToEntity(bookingService.get(id));
+        Booking newBooking = this.convertDtoToEntity(bookingDto);
+
+        newBooking.setUser(oldBooking.getUser());
+        newBooking.setCopy(oldBooking.getCopy());
+
+        this.repository.save(newBooking);
+
+        return this.convertEntityToDto(newBooking);
+    }
+
     public BookingDto extendBooking(int bookingId) {
         Booking booking = this.convertDtoToEntity(this.get(bookingId));
         booking.setStatus("extend");
@@ -77,6 +93,18 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
         this.repository.save(booking);
 
         return this.convertEntityToDto(booking);
+    }
+
+    public List<String> listEmails() {
+        List<String> emailList = new ArrayList<>();
+        List<Booking> bookings = repository.findAllByEndDateBeforeAndStatusIsNot(LocalDate.now(), "finish");
+
+        for (Booking booking : bookings) {
+            String email = booking.getUser().getMail();
+            emailList.add(email);
+        }
+
+        return emailList;
     }
 
 

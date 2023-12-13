@@ -4,6 +4,7 @@ package com.loicmaria.api.controller;
 import com.loicmaria.api.DTO.CopyDto;
 import com.loicmaria.api.service.CopyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,81 +16,65 @@ import java.util.Collection;
 public class CopyController {
     
     @Autowired
-    CopyServiceImpl copyServiceImpl;
+    CopyServiceImpl copyService;
 
 
-    //      CRUD
+    //      CRUD Operations
     //----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Create - Add a new copy
-     *
-     * @param copyDto An object copy
-     * @return ResponseEntity.ok
-     */
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createCopy(@RequestBody CopyDto copyDto) {
-        return ResponseEntity.ok(copyServiceImpl.save(copyDto));
+        CopyDto createdCopy = copyService.save(copyDto);
+
+        if (createdCopy != null){
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(createdCopy);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création de l'exemplaire.");
+        }
     }
 
-
-    /**
-     * Read - Get one copy
-     *
-     * @param id The id of the copy
-     * @return An Copy object full filled
-     */
-    @GetMapping("/id/{id}")
-    public CopyDto getCopy(@PathVariable("id") int id) {
-        CopyDto copyDto = copyServiceImpl.get(id);
-        return copyDto;
+    @GetMapping("/{id}")
+    public CopyDto getCopy(@PathVariable int id) {
+        return copyService.get(id);
     }
 
-    /**
-     * Read - Get all copies
-     *
-     * @return - An Iterable object of Copy full filled
-     */
-    @GetMapping("/all")
+    @GetMapping
     public Collection<CopyDto> getCopies() {
-        return copyServiceImpl.getter();
+        return copyService.getter();
     }
 
-    /**
-     * Update - Update an existing copy
-     *
-     * @param id     - The id of the copy to update
-     * @param copyDto - The copy object updated
-     * @return The currentCopy if he is present or null
-     */
-    @PutMapping("/id/{id}")
-    public CopyDto updateCopy(@PathVariable("id") int id, @RequestBody CopyDto copyDto) {
-        copyServiceImpl.save(copyDto);
-        return copyDto;
+    @PutMapping("/{id}")
+    public ResponseEntity<CopyDto> updateCopy(
+            @PathVariable int id,
+            @RequestBody CopyDto copyDto) {
+
+        if (id != copyDto.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+        copyService.save(copyDto);
+        return ResponseEntity.ok(copyDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCopy(@PathVariable int id) {
+        boolean copyExists = copyService.exists(id);
 
-    /**
-     * Delete - Delete an copy
-     *
-     * @param id - The id of the copy to delete
-     */
-    @DeleteMapping("/id/{id}")
-    public void deleteCopy(@PathVariable("id") int id) {
-        copyServiceImpl.delete(id);
+        if (copyExists){
+            copyService.delete(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     //----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Read - Get the collection of copies linked to the book.
-     *
-     * @param id The id of a book.
-     * @return The collection of copyDTO linked to the book.
-     */
-    @GetMapping("/book_id/{id}")
-    public Collection<CopyDto> findByBook_Id(@PathVariable int id){
-        Collection<CopyDto> copyDtoCollection = copyServiceImpl.findByBook_Id(id);
-        return copyDtoCollection;
+    @GetMapping("/book/{id}")
+    public Collection<CopyDto> findByBook(@PathVariable int id){
+        return copyService.findByBook_Id(id);
     }
 }
