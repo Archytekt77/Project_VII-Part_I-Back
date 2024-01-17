@@ -67,7 +67,7 @@ public class BookingController {
         boolean bookingExists = bookingService.exists(id);
 
         if (bookingExists) {
-            bookingService.delete(id);
+            bookingService.deleteBooking(id);
             // Renvoie un code 204 (No Content) pour indiquer le succès de la suppression.
             return ResponseEntity.noContent().build();
         } else {

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRepository> {
@@ -93,6 +94,16 @@ public class BookingServiceImpl extends Services<Booking, BookingDto, BookingRep
         this.repository.save(booking);
 
         return this.convertEntityToDto(booking);
+    }
+
+    public void deleteBooking(int bookingId){
+        Optional<Booking> booking = this.repository.findById(bookingId);
+        Copy copy = booking.get().getCopy();
+        copy.setCopies(copy.getCopies() + 1);
+
+        copyService.save(copyService.convertEntityToDto(copy));
+        this.repository.deleteById(bookingId);
+
     }
 
     public List<String> listEmails() {
