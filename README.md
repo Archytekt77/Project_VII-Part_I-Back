@@ -19,17 +19,19 @@ La DSI est en charge de tous les traitements numériques pour la mairie et les s
 ### Installation
 
 * Clone the repositories
+   * `git clone https://github.com/Archytekt77/Project_VII-Part_I-Back.git`
+   * `git clone https://github.com/Archytekt77/Project_VII-Part_II-Front`
+   * `git clone https://github.com/Archytekt77/Projet_VII-Part_III-Batch`
 
-`git clone https://github.com/Archytekt77/Project_VII-Part_I-Back.git`
-`git clone https://github.com/Archytekt77/Project_VII-Part_II-Front`
-`git clone https://github.com/Archytekt77/Projet_VII-Part_III-Batch`
-
-* Open MySQL workbench, click on `Server` and `Data import`
+* Open MySQL workbench :
     * Click on `Server`
     * Click on `Data import`
-    * Import from Dump Project Folder : C:...\P7-LOIC-MARIA\dumps\
+    * Import from Dump Project Folder : C:...\Project_VII-Part_I-Back\dumps\Dump20240117
   
-* Open with your IDE Projet_VII-Part_I-back, Projet_VII-Part_II-front and Projet_VII-Part_I-batch
+* Open with your IDE the 3 following projects :
+   * Projet_VII-Part_I-back
+   * Projet_VII-Part_II-front
+   * Projet_VII-Part_I-batch
 
 
 ### Use the application
